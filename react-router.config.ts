@@ -1,7 +1,10 @@
-import type { Config } from "@react-router/dev/config";
+import type { Config } from '@react-router/dev/config';
+import { flatRoutes } from '@react-router/fs-routes';
 
 export default {
-  // Config options...
-  // Server-side render by default, to enable SPA mode set this to `false`
-  ssr: true,
+    ssr: false,
+    async prerender() {
+        const routes = await flatRoutes();
+        return routes.map((route) => (route.path ? `/${route.path}` : '/'));
+    }
 } satisfies Config;
